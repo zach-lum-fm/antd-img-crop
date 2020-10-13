@@ -64,11 +64,18 @@ var EasyCrop = /*#__PURE__*/React.forwardRef(function (props, ref) {
       onComplete = props.onComplete;
 
   var _useState = React.useState({
+    width: 82,
+    height: 82
+  }),
+      cropSize = _useState[0],
+      setCropSize = _useState[1];
+
+  var _useState2 = React.useState({
     x: 0,
     y: 0
   }),
-      crop = _useState[0],
-      setCrop = _useState[1];
+      crop = _useState2[0],
+      setCrop = _useState2[1];
 
   var onCropComplete = React.useCallback(function (croppedArea, croppedAreaPixels) {
     onComplete(croppedAreaPixels);
@@ -79,6 +86,7 @@ var EasyCrop = /*#__PURE__*/React.forwardRef(function (props, ref) {
     crop: crop,
     onCropChange: setCrop,
     aspect: aspect,
+    cropSize: cropSize,
     cropShape: shape,
     showGrid: grid,
     zoomWithScroll: hasZoom,
@@ -89,6 +97,19 @@ var EasyCrop = /*#__PURE__*/React.forwardRef(function (props, ref) {
     minZoom: minZoom,
     maxZoom: maxZoom,
     onCropComplete: onCropComplete,
+    onMediaLoaded: function onMediaLoaded(mediaSize) {
+      if (mediaSize.width > mediaSize.height * aspect) {
+        setCropSize({
+          width: mediaSize.height * aspect,
+          height: mediaSize.height
+        });
+      } else {
+        setCropSize({
+          width: mediaSize.width,
+          height: mediaSize.width / aspect
+        });
+      }
+    },
     classes: {
       containerClassName: pkg + "-container",
       mediaClassName: MEDIA_CLASS
@@ -126,17 +147,17 @@ var ImgCrop = /*#__PURE__*/React.forwardRef(function (props, ref) {
   var hasZoom = zoom === true;
   var hasRotate = rotate === true;
 
-  var _useState2 = React.useState(''),
-      src = _useState2[0],
-      setSrc = _useState2[1];
+  var _useState3 = React.useState(''),
+      src = _useState3[0],
+      setSrc = _useState3[1];
 
-  var _useState3 = React.useState(1),
-      zoomVal = _useState3[0],
-      setZoomVal = _useState3[1];
+  var _useState4 = React.useState(1),
+      zoomVal = _useState4[0],
+      setZoomVal = _useState4[1];
 
-  var _useState4 = React.useState(0),
-      rotateVal = _useState4[0],
-      setRotateVal = _useState4[1];
+  var _useState5 = React.useState(0),
+      rotateVal = _useState5[0],
+      setRotateVal = _useState5[1];
 
   var beforeUploadRef = React.useRef();
   var fileRef = React.useRef();
